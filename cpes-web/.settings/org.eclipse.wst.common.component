@@ -6,6 +6,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
         <property name="context-root" value="cpes-web"/>
+        <!--  -->
         <property name="java-output-path" value="/cpes-web/target/classes"/>
     </wb-module>
 </project-modules>
