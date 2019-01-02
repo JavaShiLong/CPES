@@ -7,12 +7,47 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h3>${errorMsg }</h3>
-	<img alt="LOGO" src="/cpes-web/img/logo.png">
+	<img alt="LOGO" src="${APP_PATH}/img/logo.png">
   <form action="login.htm" method="post">
-   	 用户账号 : <input type="text" name="loginacct"><br>
-   	 用户密码 : <input type="password" name="password"><br>
-   	 <input type="submit" value="登录">
+   	 用户账号 : <input type="text" id="fuser" name="loginacct"><br>
+   	 用户密码 : <input type="password" id="fpwd" name="password"><br>
+   	 <input id="loginBtn" type="button" value="登录">
   </form>
 </body>
+<script type="text/javascript" src="${APP_PATH }/jquery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+	$("#loginBtn").click(function(){
+		
+		var username = $("#fuser").val();
+		if(username == ""){
+			alert("账户名不能为空");
+			$("#fuser").focus();
+			return;
+		}
+		
+		var password = $("#fpwd").val();
+		if(password == ""){
+			alert("密码不能为空");
+			$("#fpwd").focus();
+			return;
+		}
+		
+		$.ajax({
+			url : "${APP_PATH}/doLogin.do",
+			type : "POST",
+			data : {
+				"loginacct" :  username   ,
+				"password" : password
+			},
+			success : function(result){
+				if(result.success){
+					window.location.href = "${APP_PATH}/login.htm";
+				}else{
+					alert(result.error);
+				}
+			}
+			
+		});
+	});
+</script>
 </html>

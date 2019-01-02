@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-success
+<h1>欢迎小美女：${user.loginacct }</h1>
 </body>
 </html>
