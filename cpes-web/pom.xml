@@ -166,5 +166,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        
+        <!-- 依赖common -->
+        <dependency>
+            <groupId>com.cpes</groupId>
+        	<artifactId>cpes-common</artifactId>
+        	<version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

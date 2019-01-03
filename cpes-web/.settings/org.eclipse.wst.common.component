@@ -5,6 +5,9 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
+        <dependent-module archiveName="cpes-common-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cpes-common/cpes-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="cpes-web"/>
         <!--  -->
         <property name="java-output-path" value="/cpes-web/target/classes"/>

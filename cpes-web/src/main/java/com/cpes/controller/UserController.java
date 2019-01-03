@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cpes.beans.User;
 import com.cpes.service.UserService;
+import com.cpes.utils.DesUtil;
+import com.cpes.utils.MD5Util;
 
 @Controller
 public class UserController {
@@ -27,6 +29,9 @@ public class UserController {
 		Map<String, Object> map = new HashMap<>();
 
 		try {
+			String desPwd = DesUtil.encrypt(user.getPassword());
+			String password = MD5Util.digest(desPwd);
+			user.setPassword(password);
 			User queryUser = userService.queryUser(user);
 
 			if (queryUser == null) {
