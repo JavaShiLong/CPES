@@ -3,5 +3,6 @@
 <configuration>
 	<typeAliases>
 	<typeAlias type="com.cpes.beans.User" alias="user" />
+	<typeAlias type="com.cpes.beans.Menu" alias="menu" />
 	</typeAliases>
 </configuration>

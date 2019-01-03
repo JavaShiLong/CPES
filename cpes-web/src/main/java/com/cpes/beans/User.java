@@ -5,6 +5,15 @@ public class User {
 	private int id;
 	private String loginacct;
 	private String password;
+	private String username;
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	public int getId() {
 		return id;
@@ -35,11 +44,5 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(int id, String loginacct, String password) {
-		super();
-		this.id = id;
-		this.loginacct = loginacct;
-		this.password = password;
-	}
 
 }
