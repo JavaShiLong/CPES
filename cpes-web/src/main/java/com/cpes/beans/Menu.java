@@ -1,5 +1,6 @@
 package com.cpes.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Menu {
@@ -9,7 +10,7 @@ public class Menu {
 	private String url;
 	private Integer pid;
 	
-	private List<Menu> childMenu;
+	private List<Menu> childMenu = new ArrayList<Menu>();
 	
 	
 	public List<Menu> getChildMenu() {

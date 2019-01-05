@@ -1,8 +1,10 @@
 package com.cpes.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpSession;
 
@@ -58,14 +60,51 @@ public class UserController {
 	@RequestMapping("/login")
 	public String login(Model model) {
 		
-		List<Menu> parentMenus = menuService.queryParentMenu();
+	/*	 Menu V1  
+	    List<Menu> parentMenus = menuService.queryParentMenu();
 		for (Menu parentMenu : parentMenus) {
 			List<Menu> childMenu = menuService.queryChildMenu(parentMenu.getId());
 			parentMenu.setChildMenu(childMenu);
 		}
+		*/
 		
-		model.addAttribute("menus", parentMenus);
+		/* Menu V2  
+	    Menu menu = new Menu();
+		menu.setId(0);
+		queryMenu(menu);
+		model.addAttribute("menus", menu.getChildMenu());
+		*/
+		
+		Map<Integer,Menu> menuMap = new HashMap<>();
+		List<Menu> rootMenu = new ArrayList<>();
+		List<Menu> menus = menuService.queryAll();
+		
+		for (Menu menu : menus) {
+			menuMap.put(menu.getId(), menu);
+		}
+			
+		for (Menu menu : menus) {
+			if(menu.getPid() == 0){
+				rootMenu.add(menu);
+				continue;
+			}
+			menuMap.get(menu.getPid()).getChildMenu().add(menu);
+		}
 
+		model.addAttribute("menus", rootMenu);
 		return "main";
+	}
+	
+	/**
+	 * 递归菜单 用来处理 多级菜单的逻辑
+	 * @param parentMenu
+	 */
+	private void queryMenu(Menu parentMenu){
+		
+		List<Menu> childMenu = menuService.queryChildMenu(parentMenu.getId());
+		for (Menu menu : childMenu) {
+			queryMenu(menu);
+		}
+		parentMenu.setChildMenu(childMenu);
 	}
 }

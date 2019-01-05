@@ -10,4 +10,6 @@ public interface MenuDao {
 	
 	public List<Menu> queryChildMenu(Integer id);
 
+	public List<Menu> queryAll();
+
 }

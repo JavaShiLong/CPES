@@ -5,6 +5,12 @@
 
 <mapper namespace="com.cpes.dao.MenuDao">
 
+	<select id="queryAll" resultType="menu">
+		SELECT 
+		     * 
+		FROM 
+		    t_menu
+	</select>
 	<select id="queryParentMenu" resultType="menu">
 		SELECT 
 		     * 
