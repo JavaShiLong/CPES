@@ -5,6 +5,14 @@
 
 <mapper namespace="com.cpes.dao.UserDao">
 
+   <select id="queryUserByLimit" resultType="user">
+   		SELECT 
+   		   *
+   		FROM 
+   		  t_user
+   		 LIMIT #{pageNo},#{pageSize}
+   </select>
+
 	<select id="queryUser" parameterType="user" resultType="user">
 		SELECT 
 		     * 

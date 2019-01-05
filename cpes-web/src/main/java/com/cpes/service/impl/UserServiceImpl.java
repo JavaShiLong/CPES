@@ -1,5 +1,9 @@
 package com.cpes.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User queryUser(User user) {
 		return userDao.queryUser(user);
+	}
+
+	@Override
+	public List<User> queryUserByLimit(Integer pageNo, Integer pageSize) {
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("pageNo", (pageNo - 1) * pageSize);
+		map.put("pageSize", pageSize);
+		return userDao.queryUserByLimit(map);
 	}
 
 }

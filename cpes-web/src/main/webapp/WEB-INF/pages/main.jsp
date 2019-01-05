@@ -37,24 +37,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li style="padding-top:8px;">
-				<div class="btn-group">
-				  <button type="button" class="btn btn-default btn-success dropdown-toggle" data-toggle="dropdown">
-					<i class="glyphicon glyphicon-user"></i> ${user.username} <span class="caret"></span>
-				  </button>
-					  <ul class="dropdown-menu" role="menu">
-						<li><a href="#"><i class="glyphicon glyphicon-cog"></i> 个人设置</a></li>
-						<li><a href="#"><i class="glyphicon glyphicon-comment"></i> 消息</a></li>
-						<li class="divider"></li>
-						<li><a href="login.html"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
-					  </ul>
-			    </div>
-			</li>
-            <li style="margin-left:10px;padding-top:8px;">
-				<button type="button" class="btn btn-default btn-danger">
-				  <span class="glyphicon glyphicon-question-sign"></span> 帮助
-				</button>
-			</li>
+             <%@include file="/WEB-INF/pages/common/userinfo.jsp" %>
           </ul>
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="查询">
@@ -66,27 +49,7 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
 			<div class="tree">
-				<ul style="padding-left:0px;" class="list-group">
-					<c:forEach items="${menus }" var="menu">
-						<c:if test="${empty menu.childMenu }">
-							<li class="list-group-item tree-closed" >
-								<a href="${menu.url }"><i class="glyphicon glyphicon-home"></i> ${menu.name }</a> 
-							</li>
-					    </c:if>
-					    <c:if test="${not empty menu.childMenu }">
-					    	<li class="list-group-item tree-closed">
-							<span><i class="glyphicon glyphicon glyphicon-tasks"></i> ${menu.name } <span class="badge" style="float:right">${fn:length(menu.childMenu)}</span></span> 
-							<ul style="margin-top:10px;display:none;">
-								<c:forEach items="${menu.childMenu }" var="childMenu">
-									<li style="height:30px;">
-									<a href="${childMenu.url }"><i class="glyphicon glyphicon-minus-sign"></i>${childMenu.name }</a> 
-									</li>
-								</c:forEach>
-							</ul>
-						</li>
-					    </c:if>
-					</c:forEach>
-				</ul>
+				<%@include file="/WEB-INF/pages/common/menu.jsp" %>
 			</div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
