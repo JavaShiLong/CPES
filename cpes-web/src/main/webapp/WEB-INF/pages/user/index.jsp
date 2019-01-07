@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="${APP_PATH}/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="${APP_PATH}/css/font-awesome.min.css">
 	<link rel="stylesheet" href="${APP_PATH}/css/main.css">
+	<link rel="stylesheet" href="${APP_PATH}/css/pagination.css">
 	<style>
 	.tree li {
         list-style-type: none;
@@ -59,28 +60,29 @@
   <div class="form-group has-feedback">
     <div class="input-group">
       <div class="input-group-addon">查询条件</div>
-      <input class="form-control has-success" type="text" placeholder="请输入查询条件">
+      <input id="queryText" class="form-control has-success" type="text" placeholder="请输入查询条件">
     </div>
   </div>
-  <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+  <button id="queryBtn" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
 </form>
 <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='form.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+<button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='${APP_PATH}/user/add.htm'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 <br>
  <hr style="clear:both;">
           <div class="table-responsive">
-            <table class="table  table-bordered">
+            <table id="usertable" class="table  table-bordered">
               <thead>
                 <tr >
                   <th width="30">#</th>
 				  <th width="30"><input type="checkbox"></th>
                   <th>用户账号</th>
                   <th>用户名称</th>
+                  <th>用户邮箱</th>
                   <th width="100">操作</th>
                 </tr>
               </thead>
               <tbody>
-	              <c:forEach items="${users}" var="user" varStatus="status">
+	         <%--      <c:forEach items="${users}" var="user" varStatus="status">
 		                <tr>
 		                  <td>${status.count}</td>
 						  <td><input type="checkbox"></td>
@@ -92,20 +94,22 @@
 							  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
 						  </td>
 		                </tr>
-	              </c:forEach>
+	              </c:forEach> --%>
               </tbody>
 			  <tfoot>
 			     <tr >
-				     <td colspan="5" align="center">
-						<ul class="pagination">
-								<li class="disabled"><a href="#">上一页</a></li>
+				     <td colspan="6" align="center">
+						<!-- <ul class="pagination"> -->
+						<div id="Pagination" class="pagination">
+						<!-- 		<li class="disabled"><a href="#">上一页</a></li>
 								<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
 								<li><a href="#">2</a></li>
 								<li><a href="#">3</a></li>
 								<li><a href="#">4</a></li>
 								<li><a href="#">5</a></li>
-								<li><a href="#">下一页</a></li>
-							 </ul>
+								<li><a href="#">下一页</a></li> -->
+								</div>
+							<!--  </ul> -->
 					 </td>
 				 </tr>
 
@@ -121,8 +125,11 @@
     <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
     <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${APP_PATH}/script/docs.min.js"></script>
+	<script src="${APP_PATH}/jquery/jquery.pagination.js"></script>
+	<script src="${APP_PATH }/layer/layer.js"></script>
         <script type="text/javascript">
             $(function () {
+            	
 			    $(".list-group-item").click(function(){
 				    if ( $(this).find("ul") ) {
 						$(this).toggleClass("tree-closed");
@@ -133,7 +140,84 @@
 						}
 					}
 				});
+				    pageQuery(0);
             });
+            
+    
+     
+            
+            $("#queryBtn").click(function(){
+            	var querytext = $("#queryText");
+            	if ( querytext.val() == "" ) {
+            		layer.msg("查询条件不能为空，请输入", {time:1000, icon:5, shift:6}, function(){
+            			querytext.focus();
+            		});
+            	} else {
+            		pageQuery(0);
+            	}
+            });
+            
+    	    var loadingIndex = 0;
+		    var pageSize = 10;
+            
+            function pageQuery( pageIndex ){
+            	
+            	var dataObj = {"pageNo" : pageIndex+1,"pageSize" : pageSize};
+            	var querytext = $("#queryText");
+            	if ( querytext.val() != "" ) {
+            		dataObj["queryText"] = querytext.val();
+            	}
+            	
+		    	$.ajax({
+		    		url : "${APP_PATH}/user/pageQuery.do",
+		    		type : "POST",
+		    		data : dataObj,
+		    		beforeSend : function() {
+						loadingIndex = layer.msg("请求处理中", {icon : 16});
+					},
+		    		success : function( result ){
+		    			layer.close(loadingIndex);
+		    			if(result.success){
+		    				// 页面渲染
+            				var pageObj = result.page;
+            				// 循环遍历
+            				var content = "";
+            				$.each(pageObj.datas, function(index, user){
+		            				content += '<tr>';
+		      		                content += '  <td>'+(index+1)+'</td>';
+		      						content += '  <td><input type="checkbox"></td>';
+		      		                content += '  <td>'+user.loginacct+'</td>';
+		      		                content += '  <td>'+user.username+'</td>';
+		      		                content += '  <td>'+user.email+'</td>';
+		      		                content += '  <td>';
+		      						content += '      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-search"></i></button>';
+		      						content += '      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
+		      						content += '	  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
+		      						content += '  </td>';
+		      		                content += '</tr>';
+            				});
+		    				
+		    				$("#usertable tbody").html(content);
+		    				
+		    				$("#Pagination").pagination(pageSize, {
+		    				    num_edge_entries: 1, //边缘页数
+		    				    num_display_entries: 3, //主体页数
+		    				    current_page: pageIndex,// 当前页码索引
+		    				    callback: pageQuery,// 分页查询方法，传递参数为页码索引
+		    				    prev_text:"上一页",
+		    				    next_text:"下一页",
+		    				    items_per_page:pageSize //每页显示数据条数
+		    				});
+
+            				
+		    			}else{
+		    				layer.msg("查询失败", {time : 1000,icon : 5,shift : 6});
+		    			}
+		    		}
+		    		
+		    	});
+		    	
+		    };
         </script>
   </body>
 </html>

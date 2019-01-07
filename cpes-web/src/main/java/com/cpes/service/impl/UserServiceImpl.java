@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cpes.beans.Page;
 import com.cpes.beans.User;
 import com.cpes.dao.UserDao;
 import com.cpes.service.UserService;
@@ -33,6 +34,29 @@ public class UserServiceImpl implements UserService {
 		map.put("pageNo", (pageNo - 1) * pageSize);
 		map.put("pageSize", pageSize);
 		return userDao.queryUserByLimit(map);
+	}
+
+	@Override
+	public List<User> queryUser4Page(Map<String, Object> map) {
+		return userDao.queryUser4Page(map);
+	}
+
+	@Override
+	public void insertUser(Map<String, Object> map) {
+		userDao.insertUser(map);
+	}
+
+	@Override
+	public Page<User> queryUserPage(Map<String, Object> paramMap) {
+		
+		Page page = new Page();
+		
+		List<User> datas = userDao.queryUser4Page(paramMap);
+		int totalSize = userDao.queryUserCount();
+		page.setDatas(datas);
+		page.setTotalSize(totalSize);
+		
+		return page;
 	}
 
 }

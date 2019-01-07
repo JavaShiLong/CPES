@@ -6,6 +6,24 @@ public class User {
 	private String loginacct;
 	private String password;
 	private String username;
+	private String email;
+	private String creatTime;
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getCreatTime() {
+		return creatTime;
+	}
+
+	public void setCreatTime(String creatTime) {
+		this.creatTime = creatTime;
+	}
 
 	public String getUsername() {
 		return username;
@@ -41,7 +59,6 @@ public class User {
 
 	public User() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 

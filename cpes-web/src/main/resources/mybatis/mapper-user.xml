@@ -5,6 +5,43 @@
 
 <mapper namespace="com.cpes.dao.UserDao">
 
+	<insert id="insertUser">
+			insert into t_user (
+				 loginacct,
+				 password,
+				 username,
+				 email,
+				 creatTime
+			) values (
+				 #{loginacct},
+				 #{password},
+				 #{username},
+				 #{email},
+				 #{creatTime}
+			)
+	</insert>
+
+   <select id="queryUser4Page" resultType="user">
+   		SELECT 
+   		   *
+   		FROM 
+   		  t_user
+   		  <where>
+	   		     <if test="queryText != null">
+	            and loginacct like concat('%', #{queryText}, '%')  
+	            </if>
+            </where>
+   		 order by creatTime desc
+   		 LIMIT #{pageNo},#{pageSize}
+   </select>
+
+   <select id="queryUserCount" resultType="int">
+   		SELECT 
+   		   count(*)
+   		FROM 
+   		  t_user
+   </select>
+   
    <select id="queryUserByLimit" resultType="user">
    		SELECT 
    		   *
