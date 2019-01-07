@@ -57,22 +57,22 @@
 			<div class="panel panel-default">
               <div class="panel-heading">表单数据<div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
 			  <div class="panel-body">
-				<form role="form">
+				<form id="userForm" action="${APP_PATH}/user/insertUser.do" method="post" role="form">
 				  <div class="form-group">
 					<label for="exampleInputEmail1">用户账号</label>
-					<input type="email" class="form-control" id="floginacct" placeholder="请输入用户账号">
+					<input type="email" class="form-control" id="floginacct" name="loginacct" placeholder="请输入用户账号">
 				  </div>
 				  <div class="form-group">
 					<label for="exampleInputEmail1">用户名称</label>
-					<input type="email" class="form-control" id="fusername" placeholder="请输入用户名称">
+					<input type="email" class="form-control" id="fusername" name="username" placeholder="请输入用户名称">
 				  </div>
 				  <div class="form-group">
 					<label for="exampleInputPassword1">Password</label>
-					<input type="password" class="form-control" id="fpassword" placeholder="请输入用户密码">
+					<input type="password" class="form-control" id="fpassword" name="password" placeholder="请输入用户密码">
 				  </div>
 				  <div class="form-group">
 					<label for="exampleInputEmail1">邮箱地址</label>
-					<input type="email" class="form-control" id="femail" placeholder="请输入用户邮箱">
+					<input type="email" class="form-control" id="femail" name="email" placeholder="请输入用户邮箱">
 					<p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>
 				  </div>
 				
@@ -111,6 +111,7 @@
 	  </div>
 	</div>
     <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
+    <script src="${APP_PATH}/jquery/jquery-form.min.js"></script>
     <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${APP_PATH}/script/docs.min.js"></script>
 	<script src="${APP_PATH }/layer/layer.js"></script>
@@ -138,7 +139,23 @@
 					}
 					
 					var loadingIndex = 0;
-					$.ajax({
+					
+					//form 插件提交，终于不用一个一个封装数据了
+					$("#userForm").ajaxSubmit({
+						beforeSubmit :function(){
+							loadingIndex = layer.msg("请求处理中", {icon : 16});
+						},
+						success : function(result){
+							layer.close(loadingIndex);
+							if(result.success){
+								window.location.href = "${APP_PATH}/user/index.htm";
+							}else{
+								layer.msg("用户新增失败", {time : 1000,icon : 5,shift : 6});
+							}
+						}
+					});
+					
+		/* 			$.ajax({
 						url : "${APP_PATH}/user/insertUser.do",
 						type : "POST",
 						data : {
@@ -160,7 +177,7 @@
 						}
 						
 						
-					});
+					}); */
 			    	
 			    });
             });
