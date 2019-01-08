@@ -65,7 +65,7 @@
   </div>
   <button id="queryBtn" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
 </form>
-<button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+<button type="button" class="btn btn-danger" style="float:right;margin-left:10px;" onclick="deleteUsers()"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
 <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='${APP_PATH}/user/add.htm'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
 <br>
  <hr style="clear:both;">
@@ -74,7 +74,7 @@
               <thead>
                 <tr >
                   <th width="30">#</th>
-				  <th width="30"><input type="checkbox"></th>
+				  <th width="30"><input type="checkbox"  id="bossBtn"></th>
                   <th>用户账号</th>
                   <th>用户名称</th>
                   <th>用户邮箱</th>
@@ -82,34 +82,15 @@
                 </tr>
               </thead>
               <tbody>
-	         <%--      <c:forEach items="${users}" var="user" varStatus="status">
-		                <tr>
-		                  <td>${status.count}</td>
-						  <td><input type="checkbox"></td>
-		                  <td>${user.loginacct}</td>
-		                  <td>${user.username}</td>
-		                  <td>
-						      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-search"></i></button>
-						      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
-							  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
-						  </td>
-		                </tr>
-	              </c:forEach> --%>
+	      
               </tbody>
 			  <tfoot>
 			     <tr >
 				     <td colspan="6" align="center">
-						<!-- <ul class="pagination"> -->
+					
 						<div id="Pagination" class="pagination">
-						<!-- 		<li class="disabled"><a href="#">上一页</a></li>
-								<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">下一页</a></li> -->
-								</div>
-							<!--  </ul> -->
+				
+						</div>
 					 </td>
 				 </tr>
 
@@ -143,7 +124,7 @@
 				    pageQuery(0);
             });
             
-    
+   
      
             
             $("#queryBtn").click(function(){
@@ -185,21 +166,21 @@
             				$.each(pageObj.datas, function(index, user){
 		            				content += '<tr>';
 		      		                content += '  <td>'+(index+1)+'</td>';
-		      						content += '  <td><input type="checkbox"></td>';
+		      						content += '  <td><input type="checkbox" value=\''+user.id+'\'></td>';
 		      		                content += '  <td>'+user.loginacct+'</td>';
 		      		                content += '  <td>'+user.username+'</td>';
 		      		                content += '  <td>'+user.email+'</td>';
 		      		                content += '  <td>';
 		      						content += '      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-search"></i></button>';
-		      						content += '      <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
-		      						content += '	  <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
+		      						content += '      <button type="button" onclick="window.location.href=\'${APP_PATH}/user/update/'+user.id+'.htm\'" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
+		      						content += '	  <button type="button" onclick="deleteUser('+user.id+',\''+user.username+'\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
 		      						content += '  </td>';
 		      		                content += '</tr>';
             				});
 		    				
 		    				$("#usertable tbody").html(content);
 		    				
-		    				$("#Pagination").pagination(pageSize, {
+		    				$("#Pagination").pagination(pageObj.totalSize, {
 		    				    num_edge_entries: 1, //边缘页数
 		    				    num_display_entries: 3, //主体页数
 		    				    current_page: pageIndex,// 当前页码索引
@@ -218,6 +199,72 @@
 		    	});
 		    	
 		    };
+		    
+	 		function deleteUser(id , username){
+    			layer.confirm("确定删除"+username+"吗？",  {icon: 3, title:'提示'}, function(cindex){
+    				
+    				$.ajax({
+    					url : "${APP_PATH}/user/deleteUser.do",
+    					type : "POST",
+    					data : {id : id},
+    					beforeSend : function(){
+    						loadingIndex = layer.msg("请求处理中", {icon : 16});
+    					},
+    					success : function(result){
+    						layer.close(loadingIndex);
+    						if(result.success){
+    							pageQuery(0);
+    							layer.msg("用户已删除", {time : 1000,icon : 6,shift : 6});
+    						}else{
+    							layer.msg("删除用户失败", {time : 1000,icon : 5,shift : 6});
+    						}
+    					}
+    				});
+    				
+    			    layer.close(cindex);
+    			}, function(cindex){
+    			    layer.close(cindex);
+    			});
+    		};
+    		
+    		$("#bossBtn").click(function(){
+    			var checkFlag = this.checked;
+    			$("#usertable tbody :checkbox").each(function(index,checkbox){
+    				checkbox.checked = checkFlag;
+    			});
+    		});
+    		
+    		function deleteUsers(){
+    			var len = $("#usertable tbody :checked").length;
+    			
+    			if(len == 0){
+    				layer.msg("请选择删除用户", {time : 1000,icon : 5,shift : 6});
+    				return;
+    			}
+    			var dataObj = {};
+    			
+    			$("#usertable tbody :checked").each(function(index,checkbox){
+    				dataObj["ids["+index+"]"] = checkbox.value;
+    			});
+    			
+    			$.ajax({
+    				url :"${APP_PATH}/user/deleteUsers.do",
+    				type : "POST",
+    				data : dataObj,
+    				beforeSend : function(){
+    					loadingIndex = layer.msg("请求处理中", {icon : 16});
+    				},
+    				success : function(result){
+    					if(result.success){
+    						pageQuery(0);
+							layer.msg("删除成功", {time : 1000,icon : 6,shift : 6});
+    					}else{
+    						layer.msg("删除失败", {time : 1000,icon : 5,shift : 6});
+    					}
+    				}
+    			});
+    		};
+    		
         </script>
   </body>
 </html>

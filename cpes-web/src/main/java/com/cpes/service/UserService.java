@@ -3,6 +3,7 @@ package com.cpes.service;
 import java.util.List;
 import java.util.Map;
 
+import com.cpes.beans.Datas;
 import com.cpes.beans.Page;
 import com.cpes.beans.User;
 
@@ -19,4 +20,10 @@ public interface UserService {
 	public void insertUser(Map<String, Object> map);
 
 	public Page<User> queryUserPage(Map<String, Object> paramMap);
+
+	public int updateUser(Map<String, Object> paramMap);
+
+	public int deleteUser(Map<String, Object> paramMap);
+
+	public int deleteUsers(Datas ids);
 }

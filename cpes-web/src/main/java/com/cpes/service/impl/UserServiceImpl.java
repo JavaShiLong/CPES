@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cpes.beans.Datas;
 import com.cpes.beans.Page;
 import com.cpes.beans.User;
 import com.cpes.dao.UserDao;
@@ -20,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User queryUserById(Integer id) {
-		return new User();
+		return userDao.queryUserById(id);
 	}
 
 	@Override
@@ -57,6 +58,21 @@ public class UserServiceImpl implements UserService {
 		page.setTotalSize(totalSize);
 		
 		return page;
+	}
+
+	@Override
+	public int updateUser(Map<String, Object> paramMap) {
+		return userDao.updateUser(paramMap);
+	}
+
+	@Override
+	public int deleteUser(Map<String, Object> paramMap) {
+		return userDao.deleteUser(paramMap);
+	}
+
+	@Override
+	public int deleteUsers(Datas ids) {
+		return userDao.deleteUsers(ids);
 	}
 
 }

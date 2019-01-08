@@ -9,10 +9,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cpes.beans.Datas;
 import com.cpes.beans.Page;
 import com.cpes.beans.User;
 import com.cpes.service.UserService;
@@ -25,6 +27,76 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
+	
+	@ResponseBody
+	@RequestMapping("/deleteUsers")
+	public Object deleteUsers(Datas ids){
+		
+		
+	    Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		try {
+			int count = userService.deleteUsers(ids);
+			resultMap.put("success", count == ids.getIds().size());
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			resultMap.put("success", false);
+		}
+		
+		return resultMap;
+
+	}
+	
+	@ResponseBody
+	@RequestMapping("/deleteUser")
+	public Object deleteUser(Integer id){
+	    Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		try {
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("id", id);
+			int count = userService.deleteUser(paramMap);
+			resultMap.put("success", count == 1);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			resultMap.put("success", false);
+		}
+		
+		return resultMap;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/update")
+	public Object updateUser(User user){
+	    Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		try {
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("loginacct", user.getLoginacct());
+			paramMap.put("username", user.getUsername());
+			paramMap.put("email", user.getEmail());
+			paramMap.put("id", user.getId());
+			
+			int count = userService.updateUser(paramMap);
+			
+			resultMap.put("success", count == 1);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			resultMap.put("success", false);
+		}
+		
+		return resultMap;
+	}
+	
+	@RequestMapping("/update/{id}")
+	public String update(@PathVariable("id")Integer id,Model model){
+		
+		User user = userService.queryUserById(id);
+		model.addAttribute("Cuser", user);
+		
+		return "user/update";
+	}
 	
 	@ResponseBody
 	@RequestMapping("/pageQuery")

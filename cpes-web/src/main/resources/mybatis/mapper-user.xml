@@ -60,6 +60,32 @@
 		     AND 
 		     password = #{password}
 	</select>
+	
+	<select id="queryUserById" parameterType="integer" resultType="user">
+		SELECT 
+		     * 
+		FROM 
+		     t_user
+		WHERE 
+		     id = #{id} 
+	</select>
+	
+	 <update id="updateUser">
+        update t_user
+        set username = #{username}, email = #{email}, loginacct = #{loginacct}
+        where id = #{id}
+    </update>
+    
+     <delete id="deleteUser">
+        delete from t_user where id = #{id}
+    </delete>
+    
+     <delete id="deleteUsers">
+        delete from t_user where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+        	#{id}
+        </foreach>
+    </delete>
 
     <!--
     <select id="queryRolePermissionByUser" resultType="permission">
