@@ -14,7 +14,7 @@ public interface UserDao {
 
 	public List<User> queryUser4Page(Map<String, Object> map);
 
-	public void insertUser(Map<String, Object> map);
+	public int insertUser(Map<String, Object> map);
 
 	public int queryUserCount();
 

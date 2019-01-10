@@ -43,8 +43,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void insertUser(Map<String, Object> map) {
-		userDao.insertUser(map);
+	public int insertUser(Map<String, Object> map) {
+		return userDao.insertUser(map);
 	}
 
 	@Override
