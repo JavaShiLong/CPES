@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.cpes.beans.Datas;
 import com.cpes.beans.Page;
+import com.cpes.beans.Role;
 import com.cpes.beans.User;
 import com.cpes.dao.UserDao;
 import com.cpes.service.UserService;
@@ -73,6 +74,37 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int deleteUsers(Datas ids) {
 		return userDao.deleteUsers(ids);
+	}
+
+	@Override
+	public List<Role> queryAllRoles() {
+		return userDao.queryAllRoles();
+	}
+
+	@Override
+	public List<Integer> queryUserRolesById(Integer id) {
+		return userDao.queryUserRolesById(id);
+	}
+
+	@Override
+	public void insertUserRoles(Integer userid,Datas ids) {
+		
+
+		for (Integer roleid : ids.getIds()) {
+			userDao.insertUserRole(userid,roleid);
+		}
+		
+	}
+
+	@Override
+	public void deleteUserRoles(Map<String, Object> paramMap) {
+		
+			Integer userid = (Integer) paramMap.get("userid");
+			List<Integer> ids = (List<Integer>) paramMap.get("ids");
+			for (Integer id : ids) {
+				   userDao.deleteUserRole(userid,id);
+			}
+		 
 	}
 
 }

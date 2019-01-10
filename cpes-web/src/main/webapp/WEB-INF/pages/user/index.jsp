@@ -171,7 +171,7 @@
 		      		                content += '  <td>'+user.username+'</td>';
 		      		                content += '  <td>'+user.email+'</td>';
 		      		                content += '  <td>';
-		      						content += '      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-search"></i></button>';
+		      						content += '      <button type="button" onclick="window.location.href=\'${APP_PATH}/user/assign/'+user.id+'.htm\'" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-apple"></i></button>';
 		      						content += '      <button type="button" onclick="window.location.href=\'${APP_PATH}/user/update/'+user.id+'.htm\'" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
 		      						content += '	  <button type="button" onclick="deleteUser('+user.id+',\''+user.username+'\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
 		      						content += '  </td>';

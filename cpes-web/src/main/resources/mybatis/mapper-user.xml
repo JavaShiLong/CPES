@@ -5,6 +5,16 @@
 
 <mapper namespace="com.cpes.dao.UserDao">
 
+	<insert id="insertUserRole">
+			insert into t_user_role (
+				 userid,
+				 roleid
+			) values (
+				 #{userid},
+				 #{roleid}
+			)
+	</insert>
+	
 	<insert id="insertUser">
 			insert into t_user (
 				 loginacct,
@@ -74,6 +84,20 @@
 		WHERE 
 		     id = #{id} 
 	</select>
+	<select id="queryUserRolesById" parameterType="integer" resultType="integer">
+		SELECT 
+		     roleid 
+		FROM 
+		     t_user_role
+		WHERE 
+		     userid = #{id} 
+	</select>
+	<select id="queryAllRoles" resultType="role">
+		SELECT 
+		     * 
+		FROM 
+		     t_role
+	</select>
 	
 	 <update id="updateUser">
         update t_user
@@ -90,6 +114,14 @@
         <foreach collection="ids" item="id" open="(" close=")" separator=",">
         	#{id}
         </foreach>
+    </delete>
+    
+     <delete id="deleteUserRole">
+        delete from t_user_role 
+        where 
+        	userid = #{userid} 
+        and 
+        	roleid = #{roleid}
     </delete>
 
     <!--

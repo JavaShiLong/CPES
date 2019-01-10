@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.cpes.beans.Datas;
 import com.cpes.beans.Page;
+import com.cpes.beans.Role;
 import com.cpes.beans.User;
 
 public interface UserService {
@@ -26,4 +27,12 @@ public interface UserService {
 	public int deleteUser(Map<String, Object> paramMap);
 
 	public int deleteUsers(Datas ids);
+
+	public List<Role> queryAllRoles();
+
+	public List<Integer> queryUserRolesById(Integer id);
+
+	public void insertUserRoles(Integer userid,Datas ids);
+
+	public void deleteUserRoles(Map<String, Object> paramMap);
 }

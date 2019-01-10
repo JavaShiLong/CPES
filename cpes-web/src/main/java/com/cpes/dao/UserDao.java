@@ -3,7 +3,10 @@ package com.cpes.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.cpes.beans.Datas;
+import com.cpes.beans.Role;
 import com.cpes.beans.User;
 
 public interface UserDao {
@@ -25,4 +28,13 @@ public interface UserDao {
 	public int deleteUser(Map<String, Object> paramMap);
 
 	public int deleteUsers(Datas ids);
+
+	public List<Role> queryAllRoles();
+
+	public List<Integer> queryUserRolesById(Integer id);
+
+	public void insertUserRole(@Param("userid")Integer userid, @Param("roleid")Integer roleid);
+
+	public void deleteUserRole(@Param("userid")Integer userid, @Param("roleid")Integer roleid);
+
 }

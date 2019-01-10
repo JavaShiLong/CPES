@@ -1,6 +1,7 @@
 package com.cpes.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,11 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cpes.beans.Datas;
 import com.cpes.beans.Page;
+import com.cpes.beans.Role;
 import com.cpes.beans.User;
 import com.cpes.common.BaseController;
 import com.cpes.service.UserService;
@@ -28,6 +29,45 @@ public class UserController extends BaseController{
 	
 	@Autowired
 	UserService userService;
+	
+	@ResponseBody
+	@RequestMapping("/deleteAssign")
+	public Object deleteAssign(Integer userid,Datas ids){
+		
+		start();
+		
+		try {
+			Map<String , Object> paramMap = new HashMap<String , Object>();
+			paramMap.put("userid", userid);
+			paramMap.put("ids", ids.getIds());
+			
+			userService.deleteUserRoles(paramMap);
+			
+			success(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			success(false);
+		}
+		return end();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/insertAssign")
+	public Object insertAssign(Integer userid,Datas ids){
+		
+		start();
+		
+		try {
+			
+			userService.insertUserRoles(userid,ids);
+			
+			success(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			success(false);
+		}
+		return end();
+	}
 	
 	
 	@ResponseBody
@@ -146,6 +186,31 @@ public class UserController extends BaseController{
 	@RequestMapping("/add")
 	public String gotoAdd(){
 		return "user/add";
+	}
+	
+	@RequestMapping("/assign/{id}")
+	public String gotoAssign(@PathVariable("id")Integer id,Model model){
+		
+		List<Role> roleList = userService.queryAllRoles();
+		
+		List<Integer> userRoleIds = userService.queryUserRolesById(id);
+		
+		List<Role> unassignList = new ArrayList<Role>();
+		
+		List<Role> assignList = new ArrayList<Role>();
+		
+		for (Role role : roleList) {
+			if(userRoleIds.contains(role.getId())){
+				assignList.add(role);
+				continue;
+			}
+			unassignList.add(role);
+		}
+		
+		model.addAttribute("assignList", assignList);
+		model.addAttribute("unassignList", unassignList);
+		
+		return "user/assign";
 	}
 	
 	@RequestMapping("/index")
