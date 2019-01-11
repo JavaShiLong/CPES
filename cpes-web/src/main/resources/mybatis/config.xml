@@ -5,5 +5,6 @@
 	<typeAlias type="com.cpes.beans.User" alias="user" />
 	<typeAlias type="com.cpes.beans.Menu" alias="menu" />
 	<typeAlias type="com.cpes.beans.Role" alias="role" />
+	<typeAlias type="com.cpes.beans.Permission" alias="permission" />
 	</typeAliases>
 </configuration>

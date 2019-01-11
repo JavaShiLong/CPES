@@ -14,20 +14,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cpes.beans.Menu;
+import com.cpes.beans.Permission;
 import com.cpes.beans.User;
+import com.cpes.common.BaseController;
 import com.cpes.service.MenuService;
+import com.cpes.service.PermissionService;
 import com.cpes.service.UserService;
 import com.cpes.utils.DesUtil;
 import com.cpes.utils.MD5Util;
 
 @Controller
-public class ForwardController {
+public class ForwardController extends BaseController{
 	
 	@Autowired
 	UserService userService;
 	
 	@Autowired
 	MenuService menuService;
+	
+	@Autowired
+	PermissionService permissionService;
 
 	@ResponseBody
 	@RequestMapping("/doLogin")
@@ -55,6 +61,8 @@ public class ForwardController {
 		return map;
 
 	}
+	
+	
 
 	@RequestMapping("/login")
 	public String login(HttpSession session) {
@@ -87,11 +95,36 @@ public class ForwardController {
 				rootMenu.add(menu);
 				continue;
 			}
-			menuMap.get(menu.getPid()).getChildMenu().add(menu);
+			menuMap.get(menu.getPid()).getChildren().add(menu);
 		}
 
 		session.setAttribute("menus", rootMenu);
 		return "main";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/ztree")
+	public Object tree(){
+		
+	
+			Map<Integer,Permission> menuMap = new HashMap<>();
+			List<Permission> rootMenu = new ArrayList<>();
+			List<Permission> menus = permissionService.queryAll();
+			
+			for (Permission menu : menus) {
+				menuMap.put(menu.getId(), menu);
+			}
+				
+			for (Permission menu : menus) {
+				if(menu.getPid() == 0){
+					rootMenu.add(menu);
+					continue;
+				}
+				menuMap.get(menu.getPid()).getChildren().add(menu);
+			}
+			
+		
+		return rootMenu;
 	}
 	
 	/**
@@ -105,7 +138,7 @@ public class ForwardController {
 		for (Menu menu : childMenu) {
 			queryMenu(menu);
 		}
-		parentMenu.setChildMenu(childMenu);
+		parentMenu.setChildren(childMenu);
 	}
 	
 	@RequestMapping("/index")

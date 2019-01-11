@@ -77,7 +77,7 @@
 				  </div>
 				
 				  <button id="addBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>
-				  <button type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
+				  <button id="resetBtn" type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
 				</form>
 			  </div>
 			</div>
@@ -127,6 +127,10 @@
 						}
 					}
 				});
+			    
+			    $("#resetBtn").click(function(){
+			    	$("#userForm")[0].reset();
+			    });
 			    
 			    
 			    $("#addBtn").click(function(){

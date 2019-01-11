@@ -10,14 +10,14 @@ public class Menu {
 	private String url;
 	private Integer pid;
 	
-	private List<Menu> childMenu = new ArrayList<Menu>();
+	private List<Menu> children = new ArrayList<Menu>();
 	
 	
-	public List<Menu> getChildMenu() {
-		return childMenu;
+	public List<Menu> getChildren() {
+		return children;
 	}
-	public void setChildMenu(List<Menu> childMenu) {
-		this.childMenu = childMenu;
+	public void setChildren(List<Menu> children) {
+		this.children = children;
 	}
 	public Integer getId() {
 		return id;
