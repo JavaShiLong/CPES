@@ -101,7 +101,7 @@
 			success : function(result) {
 				layer.close(loadingIndex);
 				if (result.success) {
-					window.location.href = "${APP_PATH}/login.htm";
+					window.location.href = "${APP_PATH}/loadMenu.htm";
 				} else {
 					layer.msg(result.error, {
 						time : 1000,

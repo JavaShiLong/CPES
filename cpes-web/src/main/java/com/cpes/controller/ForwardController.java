@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -64,23 +65,54 @@ public class ForwardController extends BaseController{
 	
 	
 
+	@RequestMapping("/loadMenu")
+	public String loadMenu(HttpSession session) {
+		
+		
+		Map<Integer,Permission> menuMap = new HashMap<>();
+		List<Permission> rootMenu = new ArrayList<>();
+		Permission root = new Permission();
+		User user = (User) session.getAttribute("user");
+		List<Permission> menus = permissionService.queryUserPermissions(user.getId());
+		
+		for (Permission menu : menus) {
+			menuMap.put(menu.getId(), menu);
+		}
+			
+		for (Permission menu : menus) {
+			
+			if(menu.getPid() == 0){
+				continue;
+			}
+			
+			if(menu.getPid() == 1){
+				rootMenu.add(menu);
+				continue;
+			}
+			menuMap.get(menu.getPid()).getChildren().add(menu);
+		}
+
+		session.setAttribute("menus", rootMenu);
+		return "main";
+	}
+	
 	@RequestMapping("/login")
 	public String login(HttpSession session) {
 		
-	/*	 Menu V1  
+		/*	 Menu V1  
 	    List<Menu> parentMenus = menuService.queryParentMenu();
 		for (Menu parentMenu : parentMenus) {
 			List<Menu> childMenu = menuService.queryChildMenu(parentMenu.getId());
 			parentMenu.setChildMenu(childMenu);
 		}
-		*/
+		 */
 		
 		/* Menu V2  
 	    Menu menu = new Menu();
 		menu.setId(0);
 		queryMenu(menu);
 		model.addAttribute("menus", menu.getChildMenu());
-		*/
+		 */
 		
 		Map<Integer,Menu> menuMap = new HashMap<>();
 		List<Menu> rootMenu = new ArrayList<>();
@@ -89,7 +121,7 @@ public class ForwardController extends BaseController{
 		for (Menu menu : menus) {
 			menuMap.put(menu.getId(), menu);
 		}
-			
+		
 		for (Menu menu : menus) {
 			if(menu.getPid() == 0){
 				rootMenu.add(menu);
@@ -97,7 +129,7 @@ public class ForwardController extends BaseController{
 			}
 			menuMap.get(menu.getPid()).getChildren().add(menu);
 		}
-
+		
 		session.setAttribute("menus", rootMenu);
 		return "main";
 	}
@@ -123,6 +155,34 @@ public class ForwardController extends BaseController{
 				menuMap.get(menu.getPid()).getChildren().add(menu);
 			}
 			
+		
+		return rootMenu;
+	}
+	@ResponseBody
+	@RequestMapping("/load/{roleid}")
+	public Object load(@PathVariable("roleid") Integer roleid){
+		
+		
+		Map<Integer,Permission> menuMap = new HashMap<>();
+		List<Permission> rootMenu = new ArrayList<>();
+		List<Permission> menus = permissionService.queryAll();
+		List<Integer> permissions = permissionService.queryRolePermissionId(roleid);
+		
+		for (Permission menu : menus) {
+			menuMap.put(menu.getId(), menu);
+			if(permissions.contains(menu.getId())){
+				menu.setChecked(true);
+			}
+		}
+		
+		for (Permission menu : menus) {
+			if(menu.getPid() == 0){
+				rootMenu.add(menu);
+				continue;
+			}
+			menuMap.get(menu.getPid()).getChildren().add(menu);
+		}
+		
 		
 		return rootMenu;
 	}
