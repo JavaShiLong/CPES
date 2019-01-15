@@ -77,14 +77,14 @@
         </property>  
     </bean>
 
-    <!--
-    <bean id="multipartResolver" class="com.cpes.crowdfunding.helper.CrowdFundingCommonsMultipartResolver" p:defaultEncoding="UTF-8">
+    <!--  -->
+    <bean id="multipartResolver" class="com.cpes.common.MyMultipartResolver" p:defaultEncoding="UTF-8">
         <property name="maxUploadSize" value="2097152"/>
         <property name="resolveLazily" value="true"/>
     </bean>
-    -->
-    <mvc:interceptors>
+  
+<!--     <mvc:interceptors>
         <bean class="com.cpes.intercepter.MyAssignURI"></bean>
-    </mvc:interceptors>
+    </mvc:interceptors> -->
     
 </beans>

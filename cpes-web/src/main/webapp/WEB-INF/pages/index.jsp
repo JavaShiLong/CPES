@@ -45,6 +45,12 @@
 					placeholder="请输入登录密码" style="margin-top: 10px;"> <span
 					class="glyphicon glyphicon-lock form-control-feedback"></span>
 			</div>
+			<div class="form-group has-success has-feedback">
+				<select id="checkout" name="branch" class="form-control" >
+					<option value="member">会员登录</option>
+					<option value="manager">管理员登录</option>
+				</select>
+			</div>
 			<div class="checkbox">
 				<label> <input type="checkbox" value="remember-me">
 					记住我
@@ -84,10 +90,17 @@
 			});
 			return;
 		}
+		
+		var url = "${APP_PATH}/doLogin.do";
+		var checkout = $("#checkout").val();
+		if(checkout == "member"){
+			url = "${APP_PATH}/memberLogin.do";
+		}
+		
 
 		var loadingIndex = 0;
 		$.ajax({
-			url : "${APP_PATH}/doLogin.do",
+			url : url,
 			type : "POST",
 			data : {
 				"loginacct" : username,
@@ -101,7 +114,12 @@
 			success : function(result) {
 				layer.close(loadingIndex);
 				if (result.success) {
-					window.location.href = "${APP_PATH}/loadMenu.htm";
+					var checkout = $("#checkout").val();
+					if(checkout == "member"){
+						window.location.href = "${APP_PATH}/member/memberIndex.htm";
+					}else{
+						window.location.href = "${APP_PATH}/loadMenu.htm";
+					}
 				} else {
 					layer.msg(result.error, {
 						time : 1000,

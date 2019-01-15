@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cpes.beans.Member;
 import com.cpes.beans.Menu;
 import com.cpes.beans.Permission;
 import com.cpes.beans.User;
 import com.cpes.common.BaseController;
+import com.cpes.service.MemberService;
 import com.cpes.service.MenuService;
 import com.cpes.service.PermissionService;
 import com.cpes.service.UserService;
@@ -35,6 +37,9 @@ public class ForwardController extends BaseController{
 	
 	@Autowired
 	PermissionService permissionService;
+	
+	@Autowired
+	MemberService  memberService ;
 
 	@ResponseBody
 	@RequestMapping("/doLogin")
@@ -61,6 +66,33 @@ public class ForwardController extends BaseController{
 		}
 		return map;
 
+	}
+	
+	@ResponseBody
+	@RequestMapping("/memberLogin")
+	public Object memberLogin(Member member, HttpSession session) {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		try {
+			String desPwd = DesUtil.encrypt(member.getPassword());
+			String password = MD5Util.digest(desPwd);
+			member.setPassword(password);
+			Member queryMember = memberService.queryMember(member);
+			
+			if (queryMember == null) {
+				map.put("success", false);
+				map.put("error", "账户不存在");
+			}else{
+				map.put("success", true);
+				session.setAttribute("member", queryMember);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("success", false);
+		}
+		return map;
+		
 	}
 	
 	
