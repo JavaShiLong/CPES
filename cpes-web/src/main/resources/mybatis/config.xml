@@ -6,6 +6,7 @@
 	<typeAlias type="com.cpes.beans.Menu" alias="menu" />
 	<typeAlias type="com.cpes.beans.Role" alias="role" />
 	<typeAlias type="com.cpes.beans.Cert" alias="cert" />
+	<typeAlias type="com.cpes.beans.Ticket" alias="ticket" />
 	<typeAlias type="com.cpes.beans.Member" alias="member" />
 	<typeAlias type="com.cpes.beans.Permission" alias="permission" />
 	</typeAliases>

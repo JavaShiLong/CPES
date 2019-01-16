@@ -20,6 +20,11 @@ public class BaseController {
 		threadMap.get().put(key, value);
 	}
 	
+	protected void error(String msg) {
+		Map<String, Object> resultMap = threadMap.get();
+		resultMap.put("error", msg);
+	}
+	
 	protected Map<String, Object> end(){
 		
 		return threadMap.get();

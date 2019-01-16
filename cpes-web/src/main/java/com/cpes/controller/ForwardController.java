@@ -85,7 +85,7 @@ public class ForwardController extends BaseController{
 				map.put("error", "账户不存在");
 			}else{
 				map.put("success", true);
-				session.setAttribute("member", queryMember);
+				session.setAttribute("LoginMember", queryMember);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
