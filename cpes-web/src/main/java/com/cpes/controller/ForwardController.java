@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,6 +39,9 @@ public class ForwardController extends BaseController{
 	
 	@Autowired
 	MemberService  memberService ;
+
+	
+	MemberService cannot be resolved to a type	ForwardController.java	/cpes-web/src/main/java/com/cpes/controller	line 41	Java Problem
 
 	@ResponseBody
 	@RequestMapping("/doLogin")
@@ -72,7 +74,7 @@ public class ForwardController extends BaseController{
 	@RequestMapping("/memberLogin")
 	public Object memberLogin(Member member, HttpSession session) {
 		
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		
 		try {
 			String desPwd = DesUtil.encrypt(member.getPassword());
