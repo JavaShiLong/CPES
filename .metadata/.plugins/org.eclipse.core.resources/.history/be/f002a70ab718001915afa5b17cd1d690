@@ -1,0 +1,50 @@
+package com.cpes.controller;
+
+import java.util.List;
+
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cpes.beans.Page;
+import com.cpes.common.BaseController;
+
+@Controller
+@RequestMapping("/process")
+public class ProcessController extends BaseController{
+	
+	@Autowired
+	RepositoryService repositoryService;
+	
+	
+	@RequestMapping("/index")
+	public String index(){
+		return "process/index";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/pageQuery")
+	public Object pageQuery(Integer pageNo ,Integer pageSize){
+		
+		start();
+		Page page = new Page();
+		try {
+			
+			List<ProcessDefinition> datas = repositoryService.createProcessDefinitionQuery().listPage((pageNo-1)*pageSize , pageSize);
+			
+			
+			success(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		
+		return end();
+	}
+
+}

@@ -1,0 +1,11 @@
+package com.cpes.service;
+
+import java.util.List;
+
+import com.cpes.beans.Permission;
+
+public interface PermissionService {
+
+	List<Permission> queryAll();
+
+}

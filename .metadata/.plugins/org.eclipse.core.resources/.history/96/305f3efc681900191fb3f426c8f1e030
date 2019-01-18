@@ -1,0 +1,45 @@
+package com.atguigu.cpes.bean;
+
+public class Ticket {
+
+	private String piid,authstatus,processstep,authcode;
+	private Integer id,memberid;
+	
+	public String getAuthcode() {
+		return authcode;
+	}
+	public void setAuthcode(String authcode) {
+		this.authcode = authcode;
+	}
+	public String getPiid() {
+		return piid;
+	}
+	public void setPiid(String piid) {
+		this.piid = piid;
+	}
+	public String getAuthstatus() {
+		return authstatus;
+	}
+	public void setAuthstatus(String authstatus) {
+		this.authstatus = authstatus;
+	}
+	public String getProcessstep() {
+		return processstep;
+	}
+	public void setProcessstep(String processstep) {
+		this.processstep = processstep;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Integer getMemberid() {
+		return memberid;
+	}
+	public void setMemberid(Integer memberid) {
+		this.memberid = memberid;
+	}
+	
+}

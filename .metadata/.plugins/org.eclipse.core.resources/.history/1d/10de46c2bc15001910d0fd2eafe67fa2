@@ -1,0 +1,25 @@
+package com.cpes.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.cpes.service.PermissionService;
+
+@Controller
+@RequestMapping("/permission")
+public class PermissionController {
+	
+	@Autowired
+	PermissionService permissionService;
+
+	@RequestMapping("/index")
+	public String index(){
+		return "permission/index";
+	}
+	
+	@RequestMapping("/insertPermission")
+	public String insertPermission(Integer id ){
+		return "permission/add";
+	}
+}

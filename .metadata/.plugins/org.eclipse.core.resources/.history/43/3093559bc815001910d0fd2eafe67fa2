@@ -1,0 +1,55 @@
+package com.cpes.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cpes.beans.Permission;
+import com.cpes.common.BaseController;
+import com.cpes.service.PermissionService;
+
+@Controller
+@RequestMapping("/permission")
+public class PermissionController extends BaseController{
+	
+	@Autowired
+	PermissionService permissionService;
+
+	@RequestMapping("/index")
+	public String index(){
+		return "permission/index";
+	}
+	
+	@RequestMapping("/insertPermission/{id}")
+	public String insertPermission(@PathVariable("id")Integer pid,Model model){
+		model.addAttribute("pid", pid);
+		return "permission/add";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/insertPermission")
+	public Object insertPermission(Permission permission){
+		start();
+		
+		try {
+			Map<String , Object> paramMap = new HashMap<String , Object>();
+			paramMap.put("pid", permission.getPid());
+			paramMap.put("name", permission.getName());
+			paramMap.put("url", permission.getUrl());
+			
+			int count = permissionService.insertPermission(paramMap);
+			success(count == 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+}

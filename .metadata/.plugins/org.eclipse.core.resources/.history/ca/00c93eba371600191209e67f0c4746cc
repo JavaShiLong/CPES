@@ -1,0 +1,70 @@
+package com.cpes.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cpes.beans.Datas;
+import com.cpes.beans.Page;
+import com.cpes.beans.Role;
+import com.cpes.dao.RoleDao;
+import com.cpes.service.RoleService;
+
+@Service
+public class RoleServiceImpl implements RoleService {
+
+	@Autowired
+	RoleDao roleDao;
+
+	@Override
+	public int deleteRoles(Datas ids) {
+		return roleDao.deleteRoles(ids);
+	}
+
+	@Override
+	public int deleteRole(Map<String, Object> paramMap) {
+		return roleDao.deleteRole(paramMap);
+	}
+
+	@Override
+	public int updateRole(Map<String, Object> paramMap) {
+		return roleDao.updateRole(paramMap);
+	}
+
+	@Override
+	public Role queryRoleById(Integer id) {
+		return roleDao.queryRoleById(id);
+	}
+
+	@Override
+	public int insertRole(Map<String, Object> paramMap) {
+		return roleDao.insertRole(paramMap);
+	}
+
+	@Override
+	public Page<Role> queryRolePage(Map<String, Object> paramMap) {
+		
+		Page page = new Page();
+		
+		int totalSize = roleDao.queryAll(paramMap);
+		List<Role> datas = roleDao.queryRole4Page(paramMap);
+		
+		page.setTotalSize(totalSize);
+		page.setDatas(datas);
+		
+		return page;
+	}
+
+	@Override
+	public void assignPermission(Map<String, Object> paramMap) {
+		
+		Integer roleid = (Integer) paramMap.get("roleid");
+		Datas ids = (Datas) paramMap.get("ids");
+		for (Integer integer : ids.getIds()) {
+			
+		}
+		
+	}
+}

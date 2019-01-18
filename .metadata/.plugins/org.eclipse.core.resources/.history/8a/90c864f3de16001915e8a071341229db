@@ -1,0 +1,56 @@
+package com.cpes.intercepter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import com.cpes.beans.User;
+import com.cpes.utils.StringUtil;
+
+public class MyAssignURI extends HandlerInterceptorAdapter{
+
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+		
+		List<String> whiteURI = new ArrayList<String>();
+		whiteURI.add("/cpes-web/index.htm");
+		whiteURI.add("/cpes-web/doLogin.do");
+		
+		String fullURI = 
+				"/cpes-web/main.htm||/cpes-web/process/index.htm||/cpes-web/user/index.htm||/cpes-web/role/index.htm||/cpes-web/permission/index.htm||/cpes-web/certtype/index.htm||/cpes-web/cert/index.htm||/cpes-web/auth/index.htm";
+		String uri = request.getRequestURI();
+		
+		String[] URIS = fullURI.split("||");
+		for (int i = 0; i < URIS.length; i++) {
+			
+		}
+		
+		HttpSession session =request.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		if(user == null){
+			response.sendRedirect("/WEB-INF/pages/error/error.jsp");
+			return false;
+		}
+		
+		
+		
+		if(StringUtil.isNotEmpty(uri)){
+			for (int i = 0; i < URIS.length; i++) {
+				
+			}
+		}
+		
+		response.sendRedirect("/WEB-INF/pages/error/error.jsp");
+		return true;
+		
+	}
+
+	
+}

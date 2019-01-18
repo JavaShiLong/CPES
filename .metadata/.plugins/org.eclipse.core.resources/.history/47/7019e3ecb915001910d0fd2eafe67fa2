@@ -1,0 +1,14 @@
+package com.cpes.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cpes.dao.PermissionDao;
+import com.cpes.service.PermissionService;
+
+@Service
+public class PermissionServiceImpl implements PermissionService {
+
+	@Autowired
+	PermissionDao permissionDao;
+}

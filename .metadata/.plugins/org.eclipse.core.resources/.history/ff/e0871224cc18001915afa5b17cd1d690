@@ -1,0 +1,129 @@
+package com.cpes.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cpes.beans.Datas;
+import com.cpes.beans.Member;
+import com.cpes.beans.Page;
+import com.cpes.common.BaseController;
+import com.cpes.service.MemberService;
+
+@Controller
+@RequestMapping("/member")
+public class MemberController extends BaseController {
+
+	@Autowired
+	private MemberService memberService;
+	
+	@RequestMapping("/index")
+	public String index() {
+		return "member/index";
+	}
+	
+	@RequestMapping("/add")
+	public String add() {
+		return "member/add";
+	}
+	
+	@RequestMapping("/edit/{id}")
+	public String edit( @PathVariable("id")Integer id, Model model ) {
+		Member member = memberService.queryById(id);
+		model.addAttribute("member", member);
+		return "member/edit";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/deleteMembers")
+	public Object deleteMembers( Datas ds ) {
+		start();
+		
+		try {
+			int cnt = memberService.deleteMembers(ds);
+			success(cnt == ds.getIds().size());
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/deleteMember")
+	public Object deleteMember( Member member ) {
+		start();
+		
+		try {
+			int cnt = memberService.deleteMember(member);
+			success(cnt == 1);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/updateMember")
+	public Object updateMember( Member member ) {
+		start();
+		
+		try {
+			int cnt = memberService.updateMember(member);
+			success(cnt == 1);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/insertMember")
+	public Object insertMember( Member member ) {
+		start();
+		
+		try {
+			int cnt = memberService.insertMember(member);
+			success(cnt == 1);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/pageQuery")
+	public Object pageQuery( Integer pageno, Integer pagesize, String querytext ) {
+		start();
+		
+		try {
+			
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("start", (pageno-1)*pagesize);
+			paramMap.put("size", pagesize);
+			paramMap.put("querytext", querytext);
+			
+			Page<Member> memberPage = memberService.queryMemberPage(paramMap);
+			param("page", memberPage);
+			success(true);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+}

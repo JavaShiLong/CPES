@@ -1,0 +1,28 @@
+package com.cpes.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.cpes.beans.Datas;
+import com.cpes.beans.Member;
+
+/**
+ *  @author SL
+ */
+public interface MemberDao {
+	List<Member> queryMemberData(Map<String, Object> paramMap);
+
+	int queryMemberCount(Map<String, Object> paramMap);
+
+	int insertMember(Member member);
+
+	Member queryById(Integer id);
+
+	int updateMember(Member member);
+
+	int deleteMember(Member member);
+
+	int deleteMembers(Datas ds);
+
+	List<Member> queryAll();
+}

@@ -1,0 +1,97 @@
+package com.cpes.test;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.activiti.engine.HistoryService;
+import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricProcessInstanceQuery;
+import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Activiti5Test {
+
+	public static void main(String[] args) {
+
+		ApplicationContext ioc = new ClassPathXmlApplicationContext("classpath:/spring/spring-*.xml");
+
+		ProcessEngine pe = (ProcessEngine) ioc.getBean("processEngine");
+
+		RepositoryService repositoryService = pe.getRepositoryService();
+
+		//部署画板，将图片和xml文件存入数据库
+		Deployment deploy = repositoryService.createDeployment().addClasspathResource("Myprocess1.bpmn").deploy();
+
+		//准备获取运行时资源
+		RuntimeService runtimeService = pe.getRuntimeService();
+
+		//获取最新版流程
+		ProcessDefinition pd = pe.getRepositoryService().createProcessDefinitionQuery()
+				.processDefinitionKey("myProcess").latestVersion().singleResult();
+		
+		//一下代码用来设置变量值
+		//ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
+		Map<String, Object> varMap = new HashMap<String, Object>();
+		varMap.put("CW", "lisi");
+		varMap.put("PM", "zhangsan");
+		
+		//通过最新版流程ID，启动流程, 带上参数
+		ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId(),varMap);
+		
+		// 任务处理
+				TaskService taskService = pe.getTaskService();
+				
+				List<Task> tasks1 = taskService.createTaskQuery().taskAssignee("zhangsan").list();
+				List<Task> tasks2 = taskService.createTaskQuery().taskAssignee("lisi").list();
+				System.out.println( "zhangsan的任务数量 = " + tasks1.size() );
+				System.out.println( "lisi的任务数量 = " + tasks2.size() );
+				for ( Task t : tasks1 ) {
+					taskService.complete(t.getId());
+					System.out.println( "zhangsan完成的任务 = " + t.getName() );
+				}
+				
+				tasks1 = taskService.createTaskQuery().taskAssignee("zhangsan").list();
+				tasks2 = taskService.createTaskQuery().taskAssignee("lisi").list();
+				System.out.println( "zhangsan的任务数量 = " + tasks1.size() );
+				System.out.println( "lisi的任务数量 = " + tasks2.size() );
+				// 历史
+				HistoryService historyService = pe.getHistoryService();
+				
+				HistoricProcessInstanceQuery query =
+					historyService.createHistoricProcessInstanceQuery();
+				
+				HistoricProcessInstance hpi = 
+					query.processInstanceId(pi.getId()).finished().singleResult();
+				
+				System.out.println( "流程是否结束 = " + (hpi != null) );
+				
+				for ( Task t : tasks2 ) {
+					taskService.complete(t.getId());
+					System.out.println( "lisi完成的任务 = " + t.getName() );
+				}
+				tasks1 = taskService.createTaskQuery().taskAssignee("zhangsan").list();
+				tasks2 = taskService.createTaskQuery().taskAssignee("lisi").list();
+				System.out.println( "zhangsan的任务数量 = " + tasks1.size() );
+				System.out.println( "lisi的任务数量 = " + tasks2.size() );
+				
+				query =
+					historyService.createHistoricProcessInstanceQuery();
+				
+				hpi = 
+					query.processInstanceId(pi.getId()).finished().singleResult();
+				
+				System.out.println( "流程是否结束 = " + (hpi != null) );
+		
+
+	}
+
+}

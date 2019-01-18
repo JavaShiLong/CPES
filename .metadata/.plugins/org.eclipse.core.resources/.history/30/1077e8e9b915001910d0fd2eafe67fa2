@@ -1,0 +1,5 @@
+package com.cpes.service;
+
+public interface PermissionService {
+
+}

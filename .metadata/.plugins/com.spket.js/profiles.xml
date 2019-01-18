@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<profiles>
+<profile id="jQuery" name="jQuery">use namespace jQuery;
+include 'C:\\Users\\shilo\\Desktop\\任务清单\\12.project-cpes\\CPES\\docs\\设计\\jquery\\jquery-2.1.1.min.js';
+</profile>
+</profiles>

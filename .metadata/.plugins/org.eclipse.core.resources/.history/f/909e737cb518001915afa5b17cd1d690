@@ -1,0 +1,18 @@
+package com.cpes.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.cpes.common.BaseController;
+
+@Controller
+@RequestMapping("/process")
+public class ProcessController extends BaseController{
+	
+	
+	@RequestMapping("/index")
+	public String index(){
+		return "process/index";
+	}
+
+}

@@ -1,0 +1,5 @@
+package com.cpes.beans;
+
+public class Permission {
+
+}

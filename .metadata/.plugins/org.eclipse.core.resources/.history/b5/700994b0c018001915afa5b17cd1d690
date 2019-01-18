@@ -1,0 +1,5 @@
+package com.cpes.common;
+
+public class MyMultipartResolver {
+
+}

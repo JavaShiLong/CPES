@@ -1,0 +1,120 @@
+package com.cpes.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cpes.beans.Datas;
+import com.cpes.beans.Member;
+import com.cpes.beans.Page;
+import com.cpes.dao.MemberDao;
+import com.cpes.service.MemberService;
+
+/**
+ *  @author SL
+ */
+@Service
+public class MemberServiceImpl implements MemberService {
+
+	@Autowired
+	private MemberDao memberDao;
+
+	public Page<Member> queryMemberPage(Map<String, Object> paramMap) {
+		Page<Member> memberPage = new Page<Member>();
+		
+		List<Member> members = memberDao.queryMemberData(paramMap);
+		int count = memberDao.queryMemberCount(paramMap);
+		
+		memberPage.setDatas(members);
+		memberPage.setTotalSize(count);
+		
+		return memberPage;
+	}
+
+	public int insertMember(Member member) {
+		return memberDao.insertMember(member);
+	}
+
+	public Member queryById(Integer id) {
+		return memberDao.queryById(id);
+	}
+
+	public int updateMember(Member member) {
+		return memberDao.updateMember(member);
+	}
+
+	public int deleteMember(Member member) {
+		return memberDao.deleteMember(member);
+	}
+
+	public int deleteMembers(Datas ds) {
+		return memberDao.deleteMembers(ds);
+	}
+
+	public List<Member> queryAll() {
+		return memberDao.queryAll();
+	}
+
+	@Override
+	public Member queryMember(Member member) {
+		return memberDao.queryMember(member);
+	}
+	
+	public Member queryMember4Login(Member member) {
+		return memberDao.queryMember4Login(member);
+	}
+
+	public void updateMemberAccttype(Member loginMember) {
+		memberDao.updateMemberAccttype(loginMember);
+	}
+
+	public void insertTicket(Ticket t) {
+		memberDao.insertTicket(t);
+	}
+
+	public Ticket queryTicketByMemberId(Integer id) {
+		return memberDao.queryTicketByMemberId(id);
+	}
+
+	public void updateTicketProcessStep(Ticket t) {
+		memberDao.updateTicketProcessStep(t);
+	}
+
+	public void updateMemberBasicInfo(Member loginMember) {
+		memberDao.updateMemberBasicInfo(loginMember);
+	}
+
+	public void insertMemberCert(Map<String, Object> paramMap) {
+		memberDao.insertMemberCert(paramMap);
+	}
+
+	public void updateMemberEmail(Member loginMember) {
+		memberDao.updateMemberEmail(loginMember);
+	}
+
+	public void updateTicket(Ticket t) {
+		memberDao.updateTicket(t);
+	}
+
+	public Ticket queryTicketByPiid(String piid) {
+		return memberDao.queryTicketByPiid(piid);
+	}
+
+	public Member queryMemberById(Integer memberid) {
+		return memberDao.queryMemberById(memberid);
+	}
+
+	public List<Cert> queryCertsByMemberId(Integer memberid) {
+		return memberDao.queryCertsByMemberId(memberid);
+	}
+
+	public void updateMemberStatus(Integer memberid) {
+		memberDao.updateMemberStatus(memberid);
+	}
+
+	public void updateTicketAuthStatus(Ticket t) {
+		memberDao.updateTicketAuthStatus(t);
+	}
+}

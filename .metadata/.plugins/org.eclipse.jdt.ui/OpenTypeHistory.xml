@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+<typeInfo handle="=cpes-web/src\/main\/java&lt;com.cpes.service{UserService.java[UserService" modifiers="513" timestamp="1547114752089"/>
+<typeInfo handle="=cpes-web/src\/main\/java&lt;com.cpes.service{MenuService.java[MenuService" modifiers="513" timestamp="1546668549397"/>
+<typeInfo handle="=cpes-common/C:\/DEV\/java\/jre\/lib\/rt.jar&lt;java.util(HashMap.class[HashMap" modifiers="33" timestamp="1545459258202"/>
+<typeInfo handle="=cpes-web/src\/main\/java&lt;com.cpes.dao{RoleDao.java[RoleDao" modifiers="513" timestamp="1547276675988"/>
+<typeInfo handle="=cpes-web/src\/main\/java&lt;com.cpes.service{RoleService.java[RoleService" modifiers="513" timestamp="1547276250916"/>
+<typeInfo handle="=cpes-web/src\/main\/java&lt;com.cpes.service{PermissionService.java[PermissionService" modifiers="513" timestamp="1547278661999"/>
+<typeInfo handle="=cpes-common/C:\/DEV\/java\/jre\/lib\/rt.jar&lt;com.sun.xml.internal.bind.v2.runtime.unmarshaller(Intercepter.class[Intercepter" modifiers="1537" timestamp="1545459258202"/>
+<typeInfo handle="=cpes-common/C:\/DEV\/maven\/RepMaven\/org\/springframework\/spring-core\/4.0.0.RELEASE\/spring-core-4.0.0.RELEASE.jar&lt;org.springframework.cglib.transform.impl(InterceptFieldFilter.class[InterceptFieldFilter" modifiers="1537" timestamp="1546251659112"/>
+<typeInfo handle="=cpes-common/src\/main\/java&lt;com.cpes.common{BaseController.java[BaseController" modifiers="1" timestamp="1547628330662"/>
+</typeInfoHistroy>

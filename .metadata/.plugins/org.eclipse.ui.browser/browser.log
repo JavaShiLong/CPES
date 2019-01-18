@@ -1,0 +1,9 @@
+
+1月 06, 2019 08:17:17.01 NEW SESSION
+1月 06, 2019 08:17:17.03 [11136:7004:0106/081717.014:ERROR:google_update_settings.cc(300)] Failed opening key Software\Google\Update\ClientStateMedium\{8A69D345-D564-463c-AFF1-A69D9E530F96} to set usagestats; result: 5
+
+1月 07, 2019 22:27:52.96 NEW SESSION
+1月 07, 2019 22:27:52.96 [7800:9120:0107/222752.965:ERROR:google_update_settings.cc(300)] Failed opening key Software\Google\Update\ClientStateMedium\{8A69D345-D564-463c-AFF1-A69D9E530F96} to set usagestats; result: 5
+
+1月 15, 2019 09:41:46.77 NEW SESSION
+1月 15, 2019 09:41:46.77 [12240:7660:0115/094146.777:ERROR:google_update_settings.cc(300)] Failed opening key Software\Google\Update\ClientStateMedium\{8A69D345-D564-463c-AFF1-A69D9E530F96} to set usagestats; result: 5

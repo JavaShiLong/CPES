@@ -1,0 +1,5 @@
+package com.cpes.dao;
+
+public interface PermissionDao {
+
+}

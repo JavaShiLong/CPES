@@ -1,0 +1,80 @@
+package com.cpes.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cpes.beans.Cert;
+import com.cpes.beans.Datas;
+import com.cpes.beans.Page;
+import com.cpes.dao.CertDao;
+import com.cpes.service.CertService;
+
+/**
+ *  @author SL
+ */
+@Service
+public class CertServiceImpl implements CertService {
+
+	@Autowired
+	private CertDao certDao;
+
+	public Page<Cert> queryCertPage(Map<String, Object> paramMap) {
+		Page<Cert> certPage = new Page<Cert>();
+		
+		List<Cert> certs = certDao.queryCertData(paramMap);
+		int count = certDao.queryCertCount(paramMap);
+		
+		certPage.setDatas(certs);
+		certPage.setTotalSize(count);
+		
+		return certPage;
+	}
+
+	public int insertCert(Cert cert) {
+		return certDao.insertCert(cert);
+	}
+
+	public Cert queryById(Integer id) {
+		return certDao.queryById(id);
+	}
+
+	public int updateCert(Cert cert) {
+		return certDao.updateCert(cert);
+	}
+
+	public int deleteCert(Cert cert) {
+		return certDao.deleteCert(cert);
+	}
+
+	public int deleteCerts(Datas ds) {
+		return certDao.deleteCerts(ds);
+	}
+
+	public List<Cert> queryAll() {
+		return certDao.queryAll();
+	}
+
+	@Override
+	public List<Map<String, Object>> queryAcctCerts() {
+		return certDao.queryAcctCerts();
+	}
+
+	@Override
+	public void insertAcctCert(Map<String, Object> paramMap) {
+		certDao.insertAcctCert(paramMap);
+	}
+
+	@Override
+	public void deleteAcctCert(Map<String, Object> paramMap) {
+		certDao.deleteAcctCert(paramMap);
+	}
+
+	@Override
+	public List<Cert> queryCertsByMemberAccttype(String accttype) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

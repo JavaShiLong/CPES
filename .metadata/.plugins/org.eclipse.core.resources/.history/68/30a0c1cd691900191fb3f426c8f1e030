@@ -1,0 +1,58 @@
+package com.cpes.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.cpes.beans.Datas;
+import com.cpes.beans.Member;
+
+/**
+ *  @author SL
+ */
+public interface MemberDao {
+	List<Member> queryMemberData(Map<String, Object> paramMap);
+
+	int queryMemberCount(Map<String, Object> paramMap);
+
+	int insertMember(Member member);
+
+	Member queryById(Integer id);
+
+	int updateMember(Member member);
+
+	int deleteMember(Member member);
+
+	int deleteMembers(Datas ds);
+
+	List<Member> queryAll();
+
+	Member queryMember(Member member);
+	
+	Member queryMember4Login(Member member);
+
+	void updateMemberAccttype(Member loginMember);
+
+	void insertTicket(Ticket t);
+
+	Ticket queryTicketByMemberId(Integer id);
+
+	void updateTicketProcessStep(Ticket t);
+
+	void updateMemberBasicInfo(Member loginMember);
+
+	void insertMemberCert(Map<String, Object> paramMap);
+
+	void updateMemberEmail(Member loginMember);
+
+	void updateTicket(Ticket t);
+
+	Member queryMemberById(Integer memberid);
+
+	Ticket queryTicketByPiid(String piid);
+
+	List<Cert> queryCertsByMemberId(Integer memberid);
+
+	void updateMemberStatus(Integer memberid);
+
+	void updateTicketAuthStatus(Ticket t);
+}

@@ -1,0 +1,48 @@
+package com.cpes.test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Activiti5Test {
+
+	public static void main(String[] args) {
+
+		ApplicationContext ioc = new ClassPathXmlApplicationContext("classpath:/spring/spring-*.xml");
+
+		ProcessEngine pe = (ProcessEngine) ioc.getBean("processEngine");
+
+		RepositoryService repositoryService = pe.getRepositoryService();
+
+		//部署画板，将图片和xml文件存入数据库
+		Deployment deploy = repositoryService.createDeployment().addClasspathResource("Myprocess.bpmn").deploy();
+
+		//准备获取运行时资源
+		RuntimeService runtimeService = pe.getRuntimeService();
+
+		//获取最新版流程
+		ProcessDefinition pd = pe.getRepositoryService().createProcessDefinitionQuery()
+				.processDefinitionKey("myProcess").latestVersion().singleResult();
+		
+		//一下代码用来设置变量值
+		//ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
+		Map<String, Object> varMap = new HashMap<String, Object>();
+		varMap.put("CW", "lisi");
+		varMap.put("PM", "zhangsan");
+		
+		//通过最新版流程ID，启动流程
+		ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId(),varMap);
+		
+		
+
+	}
+
+}

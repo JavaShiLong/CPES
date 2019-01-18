@@ -1,0 +1,7 @@
+package com.cpes.controller;
+
+import com.cpes.common.BaseController;
+
+public class AuthController extends BaseController {
+
+}

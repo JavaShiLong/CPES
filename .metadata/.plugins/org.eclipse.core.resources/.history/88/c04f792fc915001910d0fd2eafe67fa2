@@ -1,0 +1,14 @@
+package com.cpes.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.cpes.beans.Permission;
+
+public interface PermissionService {
+
+	List<Permission> queryAll();
+
+	int insertPermission(Map<String, Object> paramMap);
+
+}

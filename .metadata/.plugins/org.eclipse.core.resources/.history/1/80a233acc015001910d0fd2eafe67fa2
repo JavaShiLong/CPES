@@ -1,0 +1,11 @@
+package com.cpes.dao;
+
+import java.util.List;
+
+import com.cpes.beans.Permission;
+
+public interface PermissionDao {
+
+	List<Permission> queryAll();
+
+}

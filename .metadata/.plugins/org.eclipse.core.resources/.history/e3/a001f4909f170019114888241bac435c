@@ -1,0 +1,8 @@
+package com.cpes.beans;
+
+public class Attributes {
+	
+	private String name;
+    private String type;
+
+}

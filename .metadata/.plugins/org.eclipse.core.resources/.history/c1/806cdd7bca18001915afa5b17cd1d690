@@ -1,0 +1,27 @@
+package com.cpes.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.cpes.bean.Datas;
+import com.cpes.bean.Page;
+import com.cpes.bean.Member;
+
+/**
+ *  @author SL
+ */
+public interface MemberService {
+	Page<Member> queryMemberPage(Map<String, Object> paramMap);
+
+	int insertMember(Member member);
+
+	Member queryById(Integer id);
+
+	int updateMember(Member member);
+
+	int deleteMember(Member member);
+
+	int deleteMembers(Datas ds);
+
+	List<Member> queryAll();
+}

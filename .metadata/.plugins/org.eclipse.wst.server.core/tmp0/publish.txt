@@ -1,0 +1,4 @@
+#Tomcat publish data
+#Fri Jan 18 11:46:40 KST 2019
+org.eclipse.jst.jee.server\:/binary\:C\:\\DEV\\maven\\RepMaven\\org\\springframework\\spring-web\\4.0.0.RELEASE\\spring-web-4.0.0.RELEASE.jar=WEB-INF/lib/spring-web-4.0.0.RELEASE.jar
+org.eclipse.jst.j2ee.server\:cpes-common=WEB-INF/lib/cpes-common-0.0.1-SNAPSHOT.jar

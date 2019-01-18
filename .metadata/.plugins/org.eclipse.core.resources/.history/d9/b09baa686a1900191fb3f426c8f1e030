@@ -1,0 +1,33 @@
+package com.cpes.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.cpes.beans.Cert;
+import com.cpes.beans.Datas;
+import com.cpes.beans.Page;
+
+/**
+ *  @author SL
+ */
+public interface CertService {
+	Page<Cert> queryCertPage(Map<String, Object> paramMap);
+
+	int insertCert(Cert cert);
+
+	Cert queryById(Integer id);
+
+	int updateCert(Cert cert);
+
+	int deleteCert(Cert cert);
+
+	int deleteCerts(Datas ds);
+
+	List<Cert> queryAll();
+
+	List<Map<String, Object>> queryAcctCerts();
+
+	void insertAcctCert(Map<String, Object> paramMap);
+
+	void deleteAcctCert(Map<String, Object> paramMap);
+}

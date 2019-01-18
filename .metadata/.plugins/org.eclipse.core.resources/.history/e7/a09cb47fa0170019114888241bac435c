@@ -1,0 +1,129 @@
+package com.cpes.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cpes.bean.Datas;
+import com.cpes.bean.Page;
+import com.cpes.bean.Cert;
+import com.cpes.common.BaseController;
+import com.cpes.service.CertService;
+
+@Controller
+@RequestMapping("/cert")
+public class CertController extends BaseController {
+
+	@Autowired
+	private CertService certService;
+	
+	@RequestMapping("/index")
+	public String index() {
+		return "cert/index";
+	}
+	
+	@RequestMapping("/add")
+	public String add() {
+		return "cert/add";
+	}
+	
+	@RequestMapping("/edit/{id}")
+	public String edit( @PathVariable("id")Integer id, Model model ) {
+		Cert cert = certService.queryById(id);
+		model.addAttribute("cert", cert);
+		return "cert/edit";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/deleteCerts")
+	public Object deleteCerts( Datas ds ) {
+		start();
+		
+		try {
+			int cnt = certService.deleteCerts(ds);
+			success(cnt == ds.getIds().size());
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/deleteCert")
+	public Object deleteCert( Cert cert ) {
+		start();
+		
+		try {
+			int cnt = certService.deleteCert(cert);
+			success(cnt == 1);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/updateCert")
+	public Object updateCert( Cert cert ) {
+		start();
+		
+		try {
+			int cnt = certService.updateCert(cert);
+			success(cnt == 1);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/insertCert")
+	public Object insertCert( Cert cert ) {
+		start();
+		
+		try {
+			int cnt = certService.insertCert(cert);
+			success(cnt == 1);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/pageQuery")
+	public Object pageQuery( Integer pageno, Integer pagesize, String querytext ) {
+		start();
+		
+		try {
+			
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("start", (pageno-1)*pagesize);
+			paramMap.put("size", pagesize);
+			paramMap.put("querytext", querytext);
+			
+			Page<Cert> certPage = certService.queryCertPage(paramMap);
+			param("page", certPage);
+			success(true);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+}

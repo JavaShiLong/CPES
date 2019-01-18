@@ -1,0 +1,149 @@
+package com.cpes.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cpes.beans.Datas;
+import com.cpes.beans.Page;
+import com.cpes.beans.Role;
+import com.cpes.common.BaseController;
+import com.cpes.service.RoleService;
+
+@Controller
+@RequestMapping("/role")
+public class RoleController extends BaseController{
+	
+	@Autowired
+	RoleService roleService;
+	
+	@ResponseBody
+	@RequestMapping("/deleteRoles")
+	public Object deleteRoles(Datas ids){
+		
+	   start();
+		try {
+			int count = roleService.deleteRoles(ids);
+			success(count == ids.getIds().size());
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		return end();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/deleteRole")
+	public Object deleteRole(Integer id){
+	   start();
+		try {
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("id", id);
+			int count = roleService.deleteRole(paramMap);
+			success(count == 1);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/update")
+	public Object updateRole(Role role){
+	    
+		start();
+		
+		try {
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("id", role.getId());
+			paramMap.put("name", role.getName());
+			
+			int count = roleService.updateRole(paramMap);
+			
+			success(count == 1);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+	
+	@RequestMapping("/update/{id}")
+	public String update(@PathVariable("id")Integer id,Model model){
+		
+		Role role = roleService.queryRoleById(id);
+		model.addAttribute("role", role);
+		
+		return "role/update";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/pageQuery")
+	public Object queryPage(String queryText,Integer pageNo,Integer pageSize){
+		
+	    start();
+		
+		try {
+			// 分页查询
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("pageNo", (pageNo-1)*pageSize);
+			paramMap.put("pageSize", pageSize);
+			paramMap.put("queryText", queryText);
+			
+			Page<Role> page = roleService.queryRolePage(paramMap);
+			param("page", page);
+			success(true);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			success(false);
+		}
+		return end();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/insertRole")
+	public Object insertRole(Role role){
+		
+		start();
+		Map<String ,Object> paramMap = new HashMap<>();
+		try {
+			paramMap.put("name", role.getName());
+			
+			int count = roleService.insertRole(paramMap);
+			
+			success(count == 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		return end();
+	}
+	
+	@RequestMapping("/add")
+	public String gotoAdd(){
+		return "role/add";
+	}
+	@RequestMapping("/assign/{id}")
+	public String assign(@PathVariable("id")Integer roleid,Model model){
+		model.addAttribute("roleid", roleid);
+		return "role/assign";
+	}
+	
+	@RequestMapping("/index")
+	public String index(){
+
+		return "role/index";
+	}
+
+
+}

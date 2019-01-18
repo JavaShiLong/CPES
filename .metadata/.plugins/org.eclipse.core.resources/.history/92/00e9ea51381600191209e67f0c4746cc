@@ -1,0 +1,29 @@
+package com.cpes.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.cpes.beans.Datas;
+import com.cpes.beans.Role;
+
+public interface RoleDao {
+
+	int deleteRoles(Datas ids);
+
+	int deleteRole(Map<String, Object> paramMap);
+
+	int updateRole(Map<String, Object> paramMap);
+
+	int insertRole(Map<String, Object> paramMap);
+
+	Role queryRoleById(Integer id);
+
+	int queryAll(Map<String, Object> paramMap);
+
+	List<Role> queryRole4Page(Map<String, Object> paramMap);
+
+	void assignPermission(@Param("roleid")Integer roleid, @Param("permissionid")Integer permissionid);
+
+}

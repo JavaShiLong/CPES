@@ -1,0 +1,64 @@
+package com.cpes.test;
+
+public class FreeMarkerTest {
+	
+	public static void main(String[] args) throws Exception {
+        // 创建Freemarker对象的配置对象
+        Configuration cfg = new Configuration();
+        // 设定默认的位置（路径）
+        cfg.setDirectoryForTemplateLoading(new File("D:\\workspace\\cpes\\cpes-web\\src\\main\\webapp\\WEB-INF\\ftl\\template"));
+        cfg.setDefaultEncoding("UTF-8");
+        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        
+        // 模板
+        Template t = cfg.getTemplate("bean.ftl");
+        // 数据
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        
+        paramMap.put("packageName", "com.atguigu.cpes");
+        String className = "Cert";
+        paramMap.put("className", className);
+        paramMap.put("author", "Lihaibo");
+        
+        List<Attributes> attrs = new ArrayList<Attributes>();
+        Attributes attributes1 = new Attributes();
+        attributes1.setName("id");
+        attributes1.setType("Integer");
+        attrs.add(attributes1);
+        
+        Attributes attributes2 = new Attributes();
+        attributes2.setName("name");
+        attributes2.setType("String");
+        attrs.add(attributes2);
+        
+        paramMap.put("attrs", attrs);
+        
+        // 装饰者设计模式 == 代理模式
+        //new BufferedOutputStream(new FileOutputStream(new File()));
+        /****************** bean ***************************/
+        // 组合生成
+        Writer out = new OutputStreamWriter(new FileOutputStream(new File("D:\\workspace\\cpes\\cpes-web\\src\\main\\java\\com\\atguigu\\cpes\\bean\\"+className+".java")), "UTF-8");
+        t.process(paramMap, out);
+        
+        /****************** service ***************************/
+        t = cfg.getTemplate("service.ftl");
+        out = new OutputStreamWriter(new FileOutputStream(new File("D:\\workspace\\cpes\\cpes-web\\src\\main\\java\\com\\atguigu\\cpes\\service\\"+className+"Service.java")), "UTF-8");
+        t.process(paramMap, out);
+        
+        /****************** service impl ***************************/
+        t = cfg.getTemplate("impl.ftl");
+        out = new OutputStreamWriter(new FileOutputStream(new File("D:\\workspace\\cpes\\cpes-web\\src\\main\\java\\com\\atguigu\\cpes\\service\\impl\\"+className+"ServiceImpl.java")), "UTF-8");
+        t.process(paramMap, out);
+        
+        /****************** service ***************************/
+        t = cfg.getTemplate("dao.ftl");
+        out = new OutputStreamWriter(new FileOutputStream(new File("D:\\workspace\\cpes\\cpes-web\\src\\main\\java\\com\\atguigu\\cpes\\dao\\"+className+"Dao.java")), "UTF-8");
+        t.process(paramMap, out);
+        
+        /****************** service ***************************/
+        t = cfg.getTemplate("controller.ftl");
+        out = new OutputStreamWriter(new FileOutputStream(new File("D:\\workspace\\cpes\\cpes-web\\src\\main\\java\\com\\atguigu\\cpes\\controller\\"+className+"Controller.java")), "UTF-8");
+        t.process(paramMap, out);
+	}
+
+}

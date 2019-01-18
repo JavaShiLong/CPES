@@ -1,0 +1,22 @@
+package com.cpes.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.cpes.beans.Permission;
+
+public interface PermissionDao {
+
+	List<Permission> queryAll();
+
+	int insertPermission(Map<String, Object> paramMap);
+
+	Permission queryPermissionById(Integer id);
+
+	int updatePermission(Map<String, Object> paramMap);
+
+	int deletePermission(Integer id);
+
+	List<Integer> queryRolePermissionId(Integer roleid);
+
+}

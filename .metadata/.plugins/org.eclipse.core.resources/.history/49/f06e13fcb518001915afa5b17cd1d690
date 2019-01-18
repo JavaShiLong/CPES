@@ -1,0 +1,39 @@
+package com.cpes.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cpes.common.BaseController;
+
+@Controller
+@RequestMapping("/process")
+public class ProcessController extends BaseController{
+	
+	
+	@RequestMapping("/index")
+	public String index(){
+		return "process/index";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/pageQuery")
+	public Object pageQuery(Integer pageNo ,Integer pageSize){
+		
+		start();
+		
+		try {
+			
+			
+			
+			success(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			success(false);
+		}
+		
+		
+		return end();
+	}
+
+}

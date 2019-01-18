@@ -1,0 +1,59 @@
+package com.cpes.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cpes.beans.Datas;
+import com.cpes.beans.Member;
+import com.cpes.beans.Page;
+import com.cpes.dao.MemberDao;
+import com.cpes.service.MemberService;
+
+/**
+ *  @author SL
+ */
+@Service
+public class MemberServiceImpl implements MemberService {
+
+	@Autowired
+	private MemberDao memberDao;
+
+	public Page<Member> queryMemberPage(Map<String, Object> paramMap) {
+		Page<Member> memberPage = new Page<Member>();
+		
+		List<Member> members = memberDao.queryMemberData(paramMap);
+		int count = memberDao.queryMemberCount(paramMap);
+		
+		memberPage.setDatas(members);
+		memberPage.setTotalsize(count);
+		
+		return memberPage;
+	}
+
+	public int insertMember(Member member) {
+		return memberDao.insertMember(member);
+	}
+
+	public Member queryById(Integer id) {
+		return memberDao.queryById(id);
+	}
+
+	public int updateMember(Member member) {
+		return memberDao.updateMember(member);
+	}
+
+	public int deleteMember(Member member) {
+		return memberDao.deleteMember(member);
+	}
+
+	public int deleteMembers(Datas ds) {
+		return memberDao.deleteMembers(ds);
+	}
+
+	public List<Member> queryAll() {
+		return memberDao.queryAll();
+	}
+}
