@@ -41,7 +41,6 @@ public class ForwardController extends BaseController{
 	MemberService  memberService ;
 
 	
-	MemberService cannot be resolved to a type	ForwardController.java	/cpes-web/src/main/java/com/cpes/controller	line 41	Java Problem
 
 	@ResponseBody
 	@RequestMapping("/doLogin")
